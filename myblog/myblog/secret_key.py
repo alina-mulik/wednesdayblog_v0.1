@@ -1,0 +1,1 @@
+SECRET_KEY = 'qdq!#kn7^wa-r05rx$u31^8@)di9#rxfy!r7p^ub8@%)xoey2@'
