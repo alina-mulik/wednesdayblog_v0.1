@@ -20,15 +20,13 @@ import homepage.views
 from django.urls import path, include
 
 urlpatterns = [
-                  path('admin/', admin.site.urls),
-                  path('', homepage.views.home, name="home"),
-                  path('liked/', homepage.views.like_event, name="like_event"),
-                  path('posts/', include('blogpage.urls')),
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('admin/', admin.site.urls),
+    path('', homepage.views.home, name="home"),
+    path('liked/', homepage.views.like_event, name="like_event"),
+    path('posts/', include('blogpage.urls')),
+    *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
+    *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
+]
 
 
 handler404 = homepage.views.error404

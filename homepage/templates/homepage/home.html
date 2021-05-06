@@ -82,8 +82,6 @@
 
       </p>
 
-      <img src="" height=200 width=200 class="img-fluid">
-
     </div>
   </section>
   <div class="container-fluid bg-secondary text-white text-center">
@@ -98,7 +96,7 @@
 
         <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
-            <img class="card-img-top" src="{% static 'Addams-Family.jpg' %}"/>
+            <img class="card-img-top" src="{{ event.post_image.url }}"/>
             <div class="card-body">
               <p class="card-text"> {{ event.post_text }}</p>
               <div class="d-flex justify-content-between align-items-center">

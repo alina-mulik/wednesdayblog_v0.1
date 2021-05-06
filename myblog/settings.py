@@ -12,8 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
-import whitenoise
+from myblog.secret_key import SECRET__APP_DB__DB_NAME, SECRET__APP_DB__PASSWORD, SECRET__APP_DB__USER, SECRET__SECRET_KEY
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,13 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-with open('myblog/secret_key.py') as f:
-    SECRET_KEY = f.read().strip()
+
+SECRET_KEY = SECRET__SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['wednesdayblog.herokuapp.com', "localhost", '127.0.0.1']
+ALLOWED_HOSTS = ['wednesdayblog.herokuapp.com', "localhost", '127.0.0.1', '0.0.0.0']
 
 # Application definition
 
@@ -78,9 +77,14 @@ WSGI_APPLICATION = 'myblog.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.parse(
-        'postgres://vbfdtwcioypnfp:6c3b65de478a452d01455ddb811002499690348dfd62eb24bedc50457acd3b2a@ec2-75-101-212-64.compute-1.amazonaws.com:5432/d5je6mt5jpg5fs',
-        conn_max_age=600),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': SECRET__APP_DB__DB_NAME,
+        'USER': SECRET__APP_DB__USER,
+        'PASSWORD': SECRET__APP_DB__PASSWORD,
+        'HOST': 'database1',  # <-- IMPORTANT: same name as docker-compose service!
+        'PORT': '5432',
+    }
 }
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -118,18 +122,20 @@ USE_TZ = True
 
 STATICFILES_DIRS = [
 
-    os.path.join(BASE_DIR, 'myblog/static/')
+    os.path.join(BASE_DIR, 'static'),
 
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+STATIC_ROOT = '/opt/services/djangoapp/src/static'
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = '/opt/services/djangoapp/src/media'
 MEDIA_URL = '/media/'
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 
 LOGGING = {
     'version': 1,

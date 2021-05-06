@@ -1,12 +1,17 @@
+from django.conf import settings
 from django.shortcuts import render, redirect
+
+from blogpage.urls import urlpatterns
 from .models import Event, Like
 from django.http import HttpResponse, HttpResponseNotFound
 from django.contrib.auth.models import User
 import random
+from django.conf.urls.static import static
 
 
 def home(request):
     events = Event.objects.all()
+    print(events.first().post_image.url, 222222222222222222)
     user = request.user
     return render(request, "homepage/home.html", {'events': events, 'user': user,
                                                   'static_files': ["Addams-Family.jpg", "poison.png",
