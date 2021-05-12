@@ -1,5 +1,3 @@
-import mock
-from django.core.files import File
 
 from homepage.models import Event, Like
 from django.contrib.auth.models import User
@@ -7,25 +5,22 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 
-# Create your tests here.
-
-
 class SimpleTest(TestCase):
     def setUp(self):
-        file_mock = mock.MagicMock(spec=File)
         user_1 = User.objects.create_user(username="Test", email="someemail@gmail.com", password="12345")
-        event_1 = Event.objects.create(post_image=file_mock, post_text="Mortisha is here")
-        event_2 = Event.objects.create(post_text="Preparinga a poison")
+        user_2 = User.objects.create_user(username="Tes2", email="someemai2@gmail.com", password="132345")
+        event_1 = Event.objects.create(post_text="Mortisha is here", author=user_1)
+        event_2 = Event.objects.create(post_text="Preparing a poison", author=user_2)
         Like.objects.create(user=user_1, event=event_1, value='Like')
+        Like.objects.create(user=user_2, event=event_2, value='Like')
 
-    def text_is_in_the_event(self):
+    def test_text_is_in_the_event(self):  # all methods in the class must be named with test
         """Text is identified in th event"""
         mortisha = Event.objects.get(post_text="Mortisha is here")
-        poison = Event.objects.get(post_texte="Preparing a poison")
-        self.assertContains(self, mortisha, "Mortisha is here")
-        self.assertContains(self, poison, "Preparinga a poison")
+        poison = Event.objects.get(post_text="Preparing a poison")
+        self.assertEqual(mortisha.post_text, "Mortisha is here")
+        self.assertEqual(poison.post_text, "Preparing a poison")
 
-    # def test_details(self):
-    #     response = self.client.get('/liked/')
-    #     print(response)
-    #     self.assertRedirects(response, response.url, status_code=302, target_status_code=200)
+    def test_details(self):
+        response = self.client.get('/liked/')
+        self.assertRedirects(response, response.url, status_code=302, target_status_code=200)

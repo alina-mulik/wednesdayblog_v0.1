@@ -15,4 +15,10 @@ mock = "*"
 [dev-packages]
 
 [requires]
-python_version = "3.8"
+python_version = "3.6"
+
+[scripts]
+test = "docker-compose run djangoapp ./manage.py test"
+app = "docker-compose up"
+stop = "docker-compose down"
+migrate = "docker exec -it wednesdayblog_v01_djangoapp_1 python manage.py migrate"
