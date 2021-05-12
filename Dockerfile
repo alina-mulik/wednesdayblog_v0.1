@@ -1,5 +1,5 @@
 # start from an official image
-FROM python:3.6
+FROM python:3.8
 
 # arbitrary location choice: you can change the directory
 RUN mkdir -p /opt/services/djangoapp/src

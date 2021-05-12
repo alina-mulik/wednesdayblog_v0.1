@@ -131,7 +131,7 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-STATIC_ROOT = '/opt/services/djangoapp/src/static'
+# STATIC_ROOT = '/opt/services/djangoapp/src/static'
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = '/opt/services/djangoapp/src/media'
