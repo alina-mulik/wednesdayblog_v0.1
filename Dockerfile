@@ -12,6 +12,7 @@ RUN pip install pipenv && pipenv install --system
 
 # copy our project code
 COPY . /opt/services/djangoapp/src
+COPY ./static /opt/services/djangoapp/src/static
 
 # expose the port 8000
 EXPOSE 8000

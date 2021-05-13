@@ -96,7 +96,7 @@
 
         <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
-            {% if event.post_images %}
+            {% if event.post_image %}
                 <img class="card-img-top" src="{{ event.post_image.url }}"/>
             {% else %}
                 <img class="card-img-top" src="{% static 'no_image.png' %}"/>
